@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+coverage/
+htmlcov/
+data/ops-queue/*.jsonl
+data/locks/*.lock
