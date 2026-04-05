@@ -18,21 +18,16 @@ htmlcov/
 accounts/
 sessions/
 cron/
-data/ops-queue/*
-!data/ops-queue/.gitkeep
-data/locks/*
-!data/locks/.gitkeep
-data/msg-queue/*
-!data/msg-queue/.gitkeep
-data/memory/*
-!data/memory/.gitkeep
+
+# Ignore everything in data/ except the structure
+data/**
+!data/
+!data/*/
+!data/**/.gitkeep
+!data/knowledge/
+!data/knowledge/sample_runbook.md
 
 # Test & Chaos Artifacts
-data/test*/
-data/chaos*/
-data/knowledge_evolve_test/
-data/phase10*/
-data/cluster_integration_test/
 temp_test_home/
 test_home/
 test-shipper/
