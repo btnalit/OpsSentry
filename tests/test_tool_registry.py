@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import pytest
 
-from ops_ledger import OpsLedger
-from sandbox import SandboxResult
-from tool_registry import ToolDisabled, ToolNotRegistered, ToolRegistry
+from src.ops_ledger import OpsLedger
+from src.sandbox import SandboxResult
+from src.tool_registry import ToolDisabled, ToolNotRegistered, ToolRegistry
 
 
 class StubSandbox:

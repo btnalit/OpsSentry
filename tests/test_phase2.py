@@ -6,7 +6,7 @@ import tempfile
 from pathlib import Path
 import pytest
 
-from agent_manager import AgentCreateRequest, AgentManager, AgentNotFoundError, InvalidCoreFileError
+from src.agent_manager import AgentCreateRequest, AgentManager, AgentNotFoundError, InvalidCoreFileError
 
 
 class _AssertRaises:

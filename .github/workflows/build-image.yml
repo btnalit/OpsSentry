@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests
         env:
-          PYTHONPATH: src
+          PYTHONPATH: .
         run: pytest -q
 
   build:

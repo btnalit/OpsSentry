@@ -9,10 +9,10 @@ import pytest
 # Add src to python path for all test script runs
 sys.path.append(str(Path(__file__).parent.parent / "src"))
 
-from agent_manager import AgentManager, AgentCreateRequest
-from ops_ledger import OpsLedger
-from sandbox import create_sandbox_provider
-from tool_registry import ToolRegistry
+from src.agent_manager import AgentManager, AgentCreateRequest
+from src.ops_ledger import OpsLedger
+from src.sandbox import create_sandbox_provider
+from src.tool_registry import ToolRegistry
 
 @pytest.mark.asyncio
 async def test_phase2_full_integration():

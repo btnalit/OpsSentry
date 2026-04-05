@@ -14,6 +14,9 @@ dependencies = [
     "litellm>=1.66,<2",
     "rank-bm25>=0.2.2,<1",
     "uvicorn[standard]>=0.34,<1",
+    "pyjwt>=2.8.0,<3",
+    "psutil>=5.9.0,<6",
+    "redis>=5.0.0,<6",
 ]
 
 [project.optional-dependencies]
@@ -24,16 +27,8 @@ dev = [
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
-py-modules = [
-    "agent_manager",
-    "config_shield",
-    "global_sync",
-    "knowledge_core",
-    "ops_ledger",
-    "sandbox",
-    "tool_registry",
-]
+packages = {find = {where = ["."]}}
+include-package-data = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

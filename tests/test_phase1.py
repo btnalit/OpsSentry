@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import time
 
-from config_shield import ConfigShield, LockAcquisitionError
-from global_sync import SyncBuffer, SyncEnvelope
-from knowledge_core import KnowledgeCore
-from ops_ledger import LedgerStateError, OpsLedger
+from src.config_shield import ConfigShield, LockAcquisitionError
+from src.global_sync import SyncBuffer, SyncEnvelope
+from src.knowledge_core import KnowledgeCore
+from src.ops_ledger import LedgerStateError, OpsLedger
 
 
 def test_ops_ledger_persists_and_recovers(tmp_path):

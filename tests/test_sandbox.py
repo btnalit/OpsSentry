@@ -5,7 +5,7 @@ import time
 
 import pytest
 
-from sandbox import BubblewrapRunner, DirectRunner, NsJailRunner, SandboxResult, create_sandbox_provider
+from src.sandbox import BubblewrapRunner, DirectRunner, NsJailRunner, SandboxResult, create_sandbox_provider
 
 
 class TestSandboxResult:
