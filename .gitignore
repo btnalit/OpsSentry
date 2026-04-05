@@ -1,3 +1,4 @@
+# Runtime
 __pycache__/
 *.py[cod]
 *.pyo
@@ -7,29 +8,44 @@ __pycache__/
 venv/
 coverage/
 htmlcov/
-data/ops-queue/*.jsonl
-data/locks/*.lock
+*.db
+*.sqlite
+*.log
+*.bak
 
-# Project Specific
+# Project Specific State (Runtime)
 .accio/
 accounts/
 sessions/
 cron/
-*.db
-*.sqlite
+data/ops-queue/*
+!data/ops-queue/.gitkeep
+data/locks/*
+!data/locks/.gitkeep
+data/msg-queue/*
+!data/msg-queue/.gitkeep
+data/memory/*
+!data/memory/.gitkeep
+
+# Test & Chaos Artifacts
 data/test*/
 data/chaos*/
-data/knowledge*/
+data/knowledge_evolve_test/
 data/phase10*/
+data/cluster_integration_test/
 temp_test_home/
-src/opssentry.egg-info/
+test_home/
+test-shipper/
+Audit_Report.md
+Stress_Test_Report*.md
+
+# Build & Packages
 node_modules/
 dist/
 build/
+*.egg-info/
 .env
+
+# System
 .DS_Store
 Thumbs.db
-
-# Documentation/Artifacts (Optional: keep if you want to share them)
-# Stress_Test_Report*.md
-# Audit_Report*.md
