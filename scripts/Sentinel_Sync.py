@@ -27,7 +27,16 @@ TASK_FILE_MAP = {
     "31": "src/dependencies.py",
     "32": "src/frontend/",
     "33": "tests/test_stress_phase4.py",
-    "34": "src/global_sync.py"
+    "34": "src/global_sync.py",
+    "61": "src/cluster/heartbeat.py",
+    "62": "src/cluster/shipper.py",
+    "64": "src/routers/cluster.py",
+    "70.1": "src/auth.py",
+    "72": "src/cluster/alert_engine.py",
+    "97": "src/channels/feishu.py",
+    "98": "tests/test_chaos_engineering_v1.py",
+    "101": "tests/test_chaos_engineering_v1.py",
+    "102": "Dockerfile"
 }
 
 # L2 Class/Logic Check Rules
@@ -37,7 +46,11 @@ L2_RULES = {
     "src/agent_vm.py": "class AgentVM",
     "src/tool_registry.py": "class ToolRegistry",
     "src/cron_engine.py": "class CronEngine",
-    "src/ops_ledger.py": "class OpsLedger"
+    "src/ops_ledger.py": "class OpsLedger",
+    "src/cluster/heartbeat.py": "class Heartbeat",
+    "src/cluster/shipper.py": "class AuditShipper",
+    "src/cluster/alert_engine.py": "class AlertAggregator",
+    "src/auth.py": "class JWTManager"
 }
 
 def log(msg):
