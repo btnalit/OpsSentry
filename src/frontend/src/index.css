@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-mono cursor-default;
+  }
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-scroll::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  @apply bg-matrix-green/20 rounded;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb:hover {
+  @apply bg-matrix-green/40;
+}
+
+/* Phase 8 Visual Polish */
+.bg-scanline {
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 16, 16, 0) 50%,
+    rgba(0, 0, 0, 0.25) 50%
+  ),
+  linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.06),
+    rgba(0, 255, 0, 0.02),
+    rgba(0, 0, 255, 0.06)
+  );
+  background-size: 100% 2px, 3px 100%;
+}
+
+.animate-scan {
+  animation: scan 10s linear infinite;
+}
+
+@keyframes scan {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+.glow-matrix {
+  text-shadow: 0 0 5px #00FF41, 0 0 10px #00FF41;
+}
+
+.glow-alert {
+  text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000;
+}
+
+/* Phase 10: War-time Monitoring Filters */
+.war-time-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  background: radial-gradient(circle, transparent 40%, rgba(255, 0, 0, 0.2) 100%);
+  animation: pulse-vignette 2s infinite ease-in-out;
+}
+
+@keyframes pulse-vignette {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+.glitch-flash {
+  animation: glitch-flash-anim 0.2s steps(2) infinite;
+}
+
+@keyframes glitch-flash-anim {
+  0% { filter: contrast(150%) hue-rotate(90deg); opacity: 0.8; }
+  50% { filter: contrast(200%) invert(0.1); opacity: 1; }
+  100% { filter: none; opacity: 0.8; }
+}
+
+@keyframes global-flash-red {
+  0%, 100% { background-color: transparent; }
+  50% { background-color: rgba(255, 0, 0, 0.15); }
+}
+
+.animate-global-flash {
+  animation: global-flash-red 1s infinite;
+}

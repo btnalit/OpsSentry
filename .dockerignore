@@ -1,0 +1,11 @@
+.git
+.github
+.venv
+__pycache__/
+*.py[cod]
+.pytest_cache/
+coverage/
+htmlcov/
+tests/
+data/ops-queue/*.jsonl
+data/locks/*.lock

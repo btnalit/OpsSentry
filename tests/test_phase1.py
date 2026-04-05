@@ -5,7 +5,7 @@ import time
 from config_shield import ConfigShield, LockAcquisitionError
 from global_sync import SyncBuffer, SyncEnvelope
 from knowledge_core import KnowledgeCore
-from ops_ledger import OpsLedger
+from ops_ledger import LedgerStateError, OpsLedger
 
 
 def test_ops_ledger_persists_and_recovers(tmp_path):
@@ -73,6 +73,18 @@ def test_sync_buffer_appends_messages(tmp_path):
     assert len(rows) == 1
     assert rows[0]["schema_version"] == "1.0"
     assert rows[0]["msgType"] == "STATE_SYNC"
+    assert buffer_path.stat().st_size > 0
+
+
+def test_ops_ledger_rejects_invalid_terminal_transition(tmp_path):
+    ledger_path = tmp_path / "data" / "ops-queue" / "ledger.jsonl"
+    ledger = OpsLedger(ledger_path)
+    ledger.create_entry("restart_nginx", entry_id="task-2")
+    ledger.mark_running("task-2")
+    ledger.mark_completed("task-2")
+
+    with _AssertRaises(LedgerStateError):
+        ledger.mark_running("task-2")
 
 
 class _AssertRaises:

@@ -1,4 +1,4 @@
-{"level":"L1","effect":"deny","match":{"command_regex":"(^|\\s)(rm\s+-rf\s+/|format(\.exe)?\b|mkfs\b|dd\b)"},"reason":"dangerous destructive commands"}
+{"level":"L1","effect":"deny","match":{"command_regex":"(^|\\s)(rm\\s+-rf\\s+/|format(\\.exe)?\\b|mkfs\\b|dd\\b)"},"reason":"dangerous destructive commands"}
 {"level":"L2","effect":"allow","match":{"node_role":"web","path_prefix":"/etc/nginx"},"reason":"web node nginx operations"}
 {"level":"L2","effect":"allow","match":{"node_role":"db","path_prefix":"/etc/mysql"},"reason":"db node mysql operations"}
 {"level":"L3","effect":"require_approval","match":{"path_regex":"^/(etc|var|usr)/"},"reason":"sensitive system paths require VICTOR approval"}

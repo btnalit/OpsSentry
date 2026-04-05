@@ -1,68 +1,96 @@
 # OpsSentry (运维哨兵) 落地路线图
 
-> **文档版本**：v1.1 | **最后更新**：2026-03-31
-> **变更说明**：基于架构审查（Task #1）修正任务描述，明确阶段划分与模块入口路径。
-
-本项目基于 Accio 的分布式自主架构，旨在实现企业级的端侧自治与全局同步。
+> **文档版本**：v4.0 | **最后更新**：2026-04-04
+> **变更说明**：v4.0 标志着 Phase 1-5 全量竣工，正式进入 Phase 6 性能优化与自演进阶段。研发韧性协议已全面接管生产流程。
 
 ---
 
-## 📋 核心开发任务
+## ✅ Phase 1 — 本地单节点基础 (已完成)
+> 审计账本、RAG 核心及本地锁。
 
-### Phase 1 — 本地单节点（无网络依赖，优先落地）
+## ✅ Phase 2 — 服务核心 (已完成)
+> 沙箱隔离、Agent 管理及 REST API。
 
-| 任务 ID | 任务主题 | 核心说明 | 入口文件 | 状态 |
-| :--- | :--- | :--- | :--- | :--- |
-| **#1** | **OpsLedger (持久化)** | 基于 `data/ops-queue/ledger.jsonl` 实现独立指令账本与断点续传。**不复用** Accio 原生 `task.jsonl`（加载即删除语义冲突）。状态机字段：`pending/running/completed/failed` + `checkpoint`。 | `src/ops_ledger.py` | ⏳ Pending |
-| **#2** | **KnowledgeCore (RAG)** | 构建 BM25 本地故障库，知识存储路径为 `data/knowledge/`（与 `data/memory/` 隔离），支持离线诊断。 | `src/knowledge_core.py` | ⏳ Pending |
-| **#3** | **Security Sandbox (基线)** | 生成 `config/seccomp-default.json` 和 `config/policy-default.jsonl` 策略基线文件；Windows 端对齐 Accio 现有环境污染 + stub 方案。 | `config/` | ⏳ Pending |
+## ✅ Phase 3 — 技能与协作 (已完成)
+> 8 大技能库与定时巡检引擎。
 
-### Phase 2 — 本地锁扩展
+## ✅ Phase 4 — 全局互联与可视化 (已完成)
+> 赛博终端控制台与全链路压测。
 
-| 任务 ID | 任务主题 | 核心说明 | 入口文件 | 状态 |
-| :--- | :--- | :--- | :--- | :--- |
-| **#4** | **ConfigShield (本地锁)** | 扩展 `DirectoryLockGate`，实现带 TTL（默认 30s）+ 心跳续期的本地文件锁（`data/locks/<hash>.lock`）；预留 `on_lock_acquired()` 回调供 Phase 3 注入分布式通知。**暂不实现** WebSocket 跨节点锁。 | `src/config_shield.py` | ⏳ Pending |
-
-### Phase 3 — 联网功能（Phase 1/2 稳定后）
-
-| 任务 ID | 任务主题 | 核心说明 | 入口文件 | 状态 |
-| :--- | :--- | :--- | :--- | :--- |
-| **#5** | **GlobalSync (同步总线)** | 实现端侧与中控台的加密 WebSocket 消息总线；消息体含 `schema_version: "1.0"` + `ts`；离线缓冲至 `data/ops-queue/sync-buffer.jsonl`，恢复后重放。 | `src/global_sync.py` | ⏳ Pending |
-| **#6** | **ConfigShield 分布式升级** | 在 Phase 4 本地锁基础上，接入 GlobalSync 实现跨节点 CMDB 资源锁。 | `src/config_shield.py` | ⏳ Pending |
-
-### 验证
-
-| 任务 ID | 任务主题 | 核心说明 | 状态 |
-| :--- | :--- | :--- | :--- |
-| **#7** | **Verification (验证)** | 模拟断电（OpsLedger 恢复 < 5s）、并发冲突（ConfigShield TTL 超时释放）与大规模运维压力测试（BM25 10GB < 100ms）。 | ⏳ Pending |
+## ✅ Phase 5 — 智能运营与自愈 (已完成)
+> 飞书/钉钉集成、分布式一致性加固、故障自愈实战验证。
 
 ---
 
-## 📂 目录结构参考
+## ✅ Phase 6 — 性能优化与自演进 (已完成)
+> 存储重构 (SQLite WAL)、竞态仲裁 (Atomic SQL) 及技能自演进闭环。
+
+---
+
+## ✅ Phase 7 — 分布式集群与高可用 (已完成)
+
+| 任务 ID | 任务主题 | 核心说明 | 负责人 | 状态 |
+| :--- | :--- | :--- | :--- | :--- |
+| **#60** | **分布式集群架构预研** | 跨节点 Agent 状态同步与负载均衡方案设计 | Architect | ✅ 已完成 |
+| **#61** | **心跳广播协议设计** | 实现分布式节点存活监测与故障自动切换 (Failover) | TL/Dev | ✅ 已完成 |
+| **#62** | **分布式审计流聚合** | 跨节点 SQLite 审计日志实时聚合与中心化展示 | Developer | ✅ 已完成 |
+| **#63** | **通讯序列与 Redis Schema** | 详细的集群通信时序与 Redis 数据结构设计 | Architect | ✅ 已完成 |
+| **#64** | **分布式监控与仪表盘** | 集群节点状态、负载分布及 Failover 过程的可视化监控 | Frontend/Dev | ✅ 已完成 |
+| **#65** | **分布式集群集成压测** | 3+ 节点真实环境下的故障切换与数据一致性验证 | QA | ✅ 已完成 |
+
+---
+
+## ✅ Phase 8 — 生产级加固与多维巡检 (已完成)
+
+| 任务 ID | 任务主题 | 核心说明 | 负责人 | 状态 |
+| :--- | :--- | :--- | :--- | :--- |
+| **#70** | **分布式认证与 RBAC** | 基于 JWT 的集群认证与细粒度权限管控 | Architect | ✅ 已完成 |
+| **#70.1** | **JWT 认证中枢实现** | 开发 `src/auth.py` 与 FastAPI 鉴权中间件 | Developer | ✅ 已完成 |
+| **#70.2** | **RBAC 权限集成** | 对接 Agent 执行与审计查询接口的权限隔离 | Developer | ✅ 已完成 |
+| **#70.3** | **安全加固审计** | IDOR 平行越权与 JWT 伪造漏洞压测 | QA | ✅ 已完成 |
+| **#71** | **大规模巡检技能优化** | 优化 Agent 对千级节点巡检时的并发调度与并发控制 | TL | ✅ 已完成 |
+| **#71.1** | **巡检压力注入审计** | 编写巡检风暴 (Task Storm) 确定性审计脚本 | QA | ✅ 已完成 |
+| **#72** | **多维告警聚合引擎** | 实现跨节点告警的智能合并与去重逻辑 | Developer | ✅ 已完成 |
+| **#72.4** | **告警风暴极端负载压测** | 万级告警瞬发压力测试与处理引擎性能加固 | Developer | ✅ 已完成 |
+
+---
+
+## ✅ Phase 9 — 跨平台生态与混沌演练 (已完成)
+
+| 任务 ID | 任务主题 | 核心说明 | 负责人 | 状态 |
+| :--- | :--- | :--- | :--- | :--- |
+| **#97** | **交互式卡片集成** | 飞书/钉钉卡片消息授权、Action 回调路由与实时 UI 同步 | Developer | ✅ 已完成 |
+| **#98** | **混沌工程实战演练** | 进程级闪断、网络分区、节点雪崩及分布式锁一致性破坏性测试 | QA | ✅ 已完成 |
+| **#99** | **HUD 2.0 视觉进化** | 节点压力脉冲、Failover 粒子漂移轨迹及态势感知增强 | Frontend | ✅ 已完成 |
+
+---
+
+## ✅ Phase 10 — 生产级演练与交付 (已完成)
+
+| 任务 ID | 任务主题 | 核心说明 | 负责人 | 状态 |
+| :--- | :--- | :--- | :--- | :--- |
+| **#101** | **全链路混沌实验** | 模拟机房级断网、Redis 宕机、千级节点级联失效下的极端自愈 | QA | ✅ 已完成 |
+| **#102** | **自动化部署体系** | 生产级 CI/CD 管道、Docker 化多实例编排与环境一致性校验 | Developer | ✅ 已完成 |
+| **#103** | **知识库与文档交付** | 整理运维 Runbooks、API 全手册及集群治理白皮书 | Architect | ✅ 已完成 |
+
+---
+
+## 📂 目录结构参考 (v5.0)
 
 ```
 OpsSentry/
-├── config/
-│   ├── seccomp-default.json      # Linux Seccomp 系统调用白名单
-│   └── policy-default.jsonl      # L1/L2/L3 三级安全策略基线
-├── data/
-│   ├── ops-queue/
-│   │   ├── ledger.jsonl          # OpsLedger 独立账本（断点续传）
-│   │   └── sync-buffer.jsonl     # GlobalSync 离线缓冲队列
-│   ├── locks/                    # ConfigShield 本地锁文件目录
-│   ├── knowledge/                # KnowledgeCore 运维知识库（BM25 索引）
-│   └── memory/                   # Agent 个人记忆（与 knowledge/ 隔离）
-├── docs/
-│   ├── PRD_OpsSentry.md
-│   └── SDD_OpsSentry.md
-├── skills/                       # 运维场景自动化脚本
-└── src/
-    ├── ops_ledger.py             # OpsLedger 核心实现
-    ├── knowledge_core.py         # KnowledgeCore BM25 实现
-    ├── config_shield.py          # ConfigShield 锁机制
-    └── global_sync.py            # GlobalSync WebSocket 同步
+├── src/
+│   ├── main.py (FastAPI Entry)
+│   ├── agent_manager.py
+│   ├── agent_vm.py
+│   ├── sandbox.py
+│   ├── tool_registry.py
+│   ├── cron_engine.py
+│   ├── ops_ledger.py
+│   ├── frontend/ (React Console)
+│   └── routers/
+├── skills/ (Global Ops Skills)
+├── tests/ (E2E & Stress Tests)
+├── scripts/ (Resilience & Sentinel Tools)
+└── docs/ (PRD/SDD/Audit/Protocol)
 ```
-
----
-
-*注：可通过 `task_list` 命令在系统中实时查看进度。*

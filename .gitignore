@@ -9,3 +9,27 @@ coverage/
 htmlcov/
 data/ops-queue/*.jsonl
 data/locks/*.lock
+
+# Project Specific
+.accio/
+accounts/
+sessions/
+cron/
+*.db
+*.sqlite
+data/test*/
+data/chaos*/
+data/knowledge*/
+data/phase10*/
+temp_test_home/
+src/opssentry.egg-info/
+node_modules/
+dist/
+build/
+.env
+.DS_Store
+Thumbs.db
+
+# Documentation/Artifacts (Optional: keep if you want to share them)
+# Stress_Test_Report*.md
+# Audit_Report*.md

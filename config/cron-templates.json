@@ -1,0 +1,102 @@
+[
+  {
+    "id": "tpl_svc_health",
+    "name": "服务存活巡检",
+    "description": "每 5 分钟执行一次 HTTP/TCP 状态探测",
+    "schedule": {
+      "kind": "every",
+      "everyMs": 300000
+    },
+    "payload": {
+      "kind": "tool",
+      "tool": "service-health-check",
+      "args": {
+        "url": "http://api.opssentry.local/health"
+      }
+    }
+  },
+  {
+    "id": "tpl_disk_watermark",
+    "name": "磁盘水位告警",
+    "description": "每 4 小时扫描一次磁盘空间并生成报告",
+    "schedule": {
+      "kind": "every",
+      "everyMs": 14400000
+    },
+    "payload": {
+      "kind": "command",
+      "command": "df -h /data"
+    }
+  },
+  {
+    "id": "tpl_cert_expiry",
+    "name": "证书到期扫描",
+    "description": "每周一早上 09:00 全量扫描 SSL 证书有效期",
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 9 * * 1",
+      "tz": "Asia/Shanghai"
+    },
+    "payload": {
+      "kind": "tool",
+      "tool": "cert-expiry-checker",
+      "args": {}
+    }
+  },
+  {
+    "id": "tpl_log_anomaly",
+    "name": "日志异常巡检",
+    "description": "每小时聚类分析一次 ERROR 日志",
+    "schedule": {
+      "kind": "every",
+      "everyMs": 3600000
+    },
+    "payload": {
+      "kind": "tool",
+      "tool": "log-analyzer",
+      "args": {
+        "pattern": "ERROR|FATAL"
+      }
+    }
+  },
+  {
+    "id": "tpl_slo_report",
+    "name": "SLO 日报",
+    "description": "每日 08:30 生成前一天的服务质量报告",
+    "schedule": {
+      "kind": "at",
+      "at": "2026-04-01T08:30:00"
+    },
+    "payload": {
+      "kind": "agent",
+      "message": "请根据昨天的 OpsLedger 数据生成 SLO 服务质量报告"
+    }
+  },
+  {
+    "id": "tpl_runbook_sync",
+    "name": "Runbook 索引同步",
+    "description": "凌晨 02:00 重新构建 KnowledgeCore 索引",
+    "schedule": {
+      "kind": "cron",
+      "expr": "0 2 * * *",
+      "tz": "Asia/Shanghai"
+    },
+    "payload": {
+      "kind": "command",
+      "command": "python scripts/reindex_runbooks.py"
+    }
+  },
+  {
+    "id": "tpl_incident_digest",
+    "name": "告警汇总推送",
+    "description": "早晚 09:00 & 18:00 推送当日事件摘要",
+    "schedule": {
+      "kind": "every",
+      "everyMs": 32400000
+    },
+    "payload": {
+      "kind": "agent",
+      "message": "汇总当前未关闭的所有告警事件并推送到飞书渠道"
+    }
+  }
+]
